@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +16,7 @@ namespace ASPNote
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,13 +27,17 @@ namespace ASPNote
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseStaticFiles();
+            app.UseRouting();           // configure 메서드의 app.xxx 확장메서드들은 미들웨어라고 부름 
+            
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("Hello World!");
+                    //await context.Response.WriteAsync("Hello World!");
+                    await context.Response.WriteAsync("왜 안되는거야!"); //한글이 깨질 때
                 });
             });
         }
